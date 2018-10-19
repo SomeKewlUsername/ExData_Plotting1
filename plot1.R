@@ -10,3 +10,18 @@ if (!file.exists(dataSet)) {
   unzip(dataSetTemp, dataSet)
   unlink(dataSetTemp)
 }
+
+# reading data set
+householdPowerConsumption <- fread(dataSet, sep = ";", header = TRUE, na.strings = "?")
+
+# extracting record from 1/2/2007 to 2/2/2007
+householdPowerConsumption <- householdPowerConsumption[Date %in% c("1/2/2007", "2/2/2007"), ]
+
+# png file device
+png(file="plot1.png", width = 480, height = 480)
+
+# create histogram
+hist(householdPowerConsumption$Global_active_power, col = "red", main = "Global Active Power", xlab="Global Active Power (kilowatts)", ylim = c(0, 1200))
+
+# close png file device
+dev.off()
